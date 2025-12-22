@@ -44,7 +44,8 @@ class Program
             {
                 LogLevel = LogSeverity.Debug,
                 MessageCacheSize = 100,
-                GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.Guilds | GatewayIntents.GuildMessages | GatewayIntents.MessageContent
+                GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.Guilds | GatewayIntents.GuildMessages | GatewayIntents.MessageContent,
+                HandlerTimeout = null
             }
         );
 
@@ -131,7 +132,7 @@ class Program
             Log.Error(e.Message);
         }
 
-        Log.Success($"Bloqbit is now online, running on {_client?.Guilds.Count} servers!");
+        Log.Success($"Bloqbit is now online, running v{Bloqbit.Include.Version.Get()} on {_client?.Guilds.Count} servers!");
         Log.Print("change this text"); // cuz of the egg we use atm
     }
 

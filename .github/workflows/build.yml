@@ -1,4 +1,4 @@
-name: Bloqbit CI
+name: Bloqbit Build
 
 on:
     push:
@@ -10,14 +10,19 @@ jobs:
         strategy:
             matrix:
                 include:
-                    - os: windows-latest
+                    - name: Windows
+                      os: windows-latest
                       rid: win-x64
-                    - os: ubuntu-latest
+
+                    - name: Linux
+                      os: ubuntu-latest
                       rid: linux-x64
-                    - os: macos-latest
+
+                    - name: MacOS
+                      os: macos-latest
                       rid: osx-x64
 
-        name: Build for ${{ matrix.rid }}
+        name: Build for ${{ matrix.name }}
         runs-on: ${{ matrix.os }}
 
         steps:
@@ -35,7 +40,7 @@ jobs:
             - name: Upload artifact
               uses: actions/upload-artifact@v4
               with:
-                  name: bbcore-${{ matrix.rid }}
+                  name: bloqbit-${{ matrix.name }}
                   path: ./publish/${{ matrix.rid }}
 
     package:
@@ -44,37 +49,41 @@ jobs:
         needs: [build]
 
         steps:
-            - name: Download win-x64
+            - name: Download Windows
               uses: actions/download-artifact@v4
               with:
-                  name: bbcore-win-x64
+                  name: bloqbit-Windows
                   path: ./merged/win-x64
 
-            - name: Download linux-x64
+            - name: Download Linux
               uses: actions/download-artifact@v4
               with:
-                  name: bbcore-linux-x64
+                  name: bloqbit-Linux
                   path: ./merged/linux-x64
 
-            - name: Download osx-x64
+            - name: Download MacOS
               uses: actions/download-artifact@v4
               with:
-                  name: bbcore-osx-x64
+                  name: bloqbit-MacOS
                   path: ./merged/osx-x64
 
             - name: Combine outputs
               run: |
                   mkdir -p ./final
-                  find ./merged -type f -exec cp {} ./final/ \;
+                  cp -r ./merged/* ./final/
+
+            - name: Create archive
+              run: |
+                  apt-get update -y && apt-get install -y zip || true
+                  zip -r Bloqbit-Output.zip final
 
             - name: Upload merged artifact
               uses: actions/upload-artifact@v4
               with:
                   name: Bloqbit-Output
-                  path: ./final
+                  path: Bloqbit-Output.zip
 
-            - name: Cleanup merged artifacts
+            - name: Cleanup artifacts
               if: always()
               run: |
-                  rm -rf ./merged
-                  rm -rf ./final
+                  rm -rf ./merged ./final Bloqbit-Output.zip

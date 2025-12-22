@@ -13,9 +13,8 @@ namespace Bloqbit.Include
         /// <summary>
         /// Handler function for this command
         /// </summary>
-        /// <param name="command"></param>
-        /// <param name="client"></param>
-        /// <returns></returns>
+        /// <param name="command">Slash command to execute</param>
+        /// <param name="client">Discord bot client</param>
         public abstract Task ExecuteAsync(SocketSlashCommand command, DiscordSocketClient client);
     }
 }

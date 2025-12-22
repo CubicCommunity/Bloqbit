@@ -6,7 +6,7 @@ namespace Bloqbit
     {
         public static class Icons
         {
-            public const string Self = "<:Bloqbit:1407517785252429965>";
+            public const string Self = "<:Bloqbit:1407517788377055283>";
             public const string Check = "<:bb_check:1407517838540931253>";
             public const string XMark = "<:bb_xmark:1407517869901873264>";
             public const string Info = "<:bb_info:1407517847399305266>";
