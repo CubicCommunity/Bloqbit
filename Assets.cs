@@ -27,8 +27,8 @@ namespace Bloqbit
 
         public static class Colors
         {
-            public static readonly Color Primary = Color.Red;
-            public static readonly Color Secondary = Color.Blue;
+            public static readonly Color Primary = Color.Blue;
+            public static readonly Color Secondary = Color.Red;
             public static readonly Color Tertiary = Color.Teal;
         }
     }

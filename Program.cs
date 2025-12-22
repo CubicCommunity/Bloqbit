@@ -21,7 +21,8 @@ class Program
     {
         if (string.IsNullOrEmpty(token))
         {
-            throw new InvalidOperationException("MAIN_TOKEN environment variable is not set");
+            Log.Error("MAIN_TOKEN environment variable is not set! Cannot run Bloqbit without a bot token.");
+            Environment.Exit(1);
         }
         else
         {
