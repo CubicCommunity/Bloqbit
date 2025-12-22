@@ -3,6 +3,7 @@
         <OutputType>Exe</OutputType>
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
+        <ServerGarbageCollection>true</ServerGarbageCollection>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
@@ -13,7 +14,6 @@
 
     <ItemGroup>
         <PackageReference Include="Discord.Net" Version="3.18.0" />
-        <PackageReference Include="DotNetEnv" Version="3.1.1" />
         <PackageReference Include="Npgsql" Version="9.0.3" />
     </ItemGroup>
 

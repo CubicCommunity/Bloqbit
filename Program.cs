@@ -3,7 +3,7 @@
 using Bloqbit;
 using Bloqbit.Include;
 
-using DotNetEnv;
+using System;
 
 using Discord;
 using Discord.WebSocket;
@@ -14,13 +14,11 @@ class Program
     private DiscordSocketClient? _client;
     private static List<Command> _commands = [];
 
-    private static readonly string? token = Env.GetString("MAIN_TOKEN", null);
-    private static readonly string? _webhookUrl = Env.GetString("MAIN_LOG_WH", null);
+    private static readonly string? token = Environment.GetEnvironmentVariable("MAIN_TOKEN");
+    private static readonly string? _webhookUrl = Environment.GetEnvironmentVariable("MAIN_LOG_WH");
 
     public Program()
     {
-        Env.Load();
-
         if (string.IsNullOrEmpty(token))
         {
             throw new InvalidOperationException("MAIN_TOKEN environment variable is not set");
@@ -133,7 +131,6 @@ class Program
         }
 
         Log.Success($"Bloqbit is now online, running v{Bloqbit.Include.Version.Get()} on {_client?.Guilds.Count} servers!");
-        Log.Print("change this text"); // cuz of the egg we use atm
     }
 
     private Task Debug(LogMessage log)

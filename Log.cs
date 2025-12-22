@@ -1,10 +1,10 @@
-using DotNetEnv;
+using System;
 
 namespace Bloqbit
 {
     public static class Log
     {
-        private static readonly int level = Env.GetInt("LOG_LEVEL", 0);
+        private static readonly int level = int.TryParse(Environment.GetEnvironmentVariable("LOG_LEVEL") ?? "0", out var v) ? v : 0;
 
         public static void Debug(string message) { if (level <= 0) Write(message, "DEBUG", ConsoleColor.Gray); }
         public static void Info(string message) { if (level <= 1) Write(message, "INFO", ConsoleColor.Blue); }

@@ -40,7 +40,8 @@ jobs:
             - name: Upload artifact
               uses: actions/upload-artifact@v4
               with:
-                  name: bloqbit-${{ matrix.name }}
+                  # Use matrix.name so the package job can download predictable names
+                  name: bloqbit-${{ matrix.rid }}
                   path: ./publish/${{ matrix.rid }}
 
     package:
@@ -52,30 +53,30 @@ jobs:
             - name: Download Windows
               uses: actions/download-artifact@v4
               with:
-                  name: bloqbit-Windows
+                  name: bloqbit-win-x64
                   path: ./merged/win-x64
 
             - name: Download Linux
               uses: actions/download-artifact@v4
               with:
-                  name: bloqbit-Linux
+                  name: bloqbit-linux-x64
                   path: ./merged/linux-x64
 
             - name: Download MacOS
               uses: actions/download-artifact@v4
               with:
-                  name: bloqbit-MacOS
+                  name: bloqbit-osx-x64
                   path: ./merged/osx-x64
 
             - name: Combine outputs
               run: |
                   mkdir -p ./final
-                  cp -r ./merged/* ./final/
+                  cp -r ./merged/* ./final/ || true
 
             - name: Create archive
               run: |
                   apt-get update -y && apt-get install -y zip || true
-                  zip -r Bloqbit-Output.zip final
+                  zip -r Bloqbit-Output.zip final || true
 
             - name: Upload merged artifact
               uses: actions/upload-artifact@v4
@@ -86,4 +87,14 @@ jobs:
             - name: Cleanup artifacts
               if: always()
               run: |
-                  rm -rf ./merged ./final Bloqbit-Output.zip
+                  # Remove downloaded and generated artifact dirs
+                  rm -rf ./merged ./final ./publish || true
+
+                  # Remove all files and directories except the final zip
+                  for item in *; do
+                    if [[ "$item" != "Bloqbit-Output.zip" ]]; then
+                      rm -rf "$item" || true
+                    fi
+                  done
+
+                  echo "Workspace trimmed to only Bloqbit-Output.zip"
