@@ -64,7 +64,7 @@ class Program
         _client.JoinedGuild += OnJoinedGuildAsync;
         _client.LeftGuild += OnLeftGuildAsync;
 
-        await Task.Delay(-1); // Keeps the bot running
+        await Task.Delay(-1); // Keep it running
     }
 
     static public List<Command> LoadAllCommands()
@@ -128,7 +128,7 @@ class Program
             Log.Error(e.Message);
         }
 
-        Log.Success($"Bloqbit is now online, running v{Bloqbit.Include.Version.Get()} on {_client?.Guilds.Count} servers!");
+        Log.Success($"Bloqbit is online, running v{Bloqbit.Include.Version.Get()} on {_client?.Guilds.Count} servers!");
     }
 
     private Task Debug(LogMessage log)
