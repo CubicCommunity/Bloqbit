@@ -30,7 +30,7 @@ jobs:
                   dotnet-version: "9.0.x"
 
             - name: Publish for ${{ matrix.rid }}
-              run: dotnet publish -c Release -r ${{ matrix.rid }} -p:PublishSingleFile=true -o ./publish/${{ matrix.rid }}
+              run: dotnet publish Bloqbit.csproj -c Release -r ${{ matrix.rid }} -p:PublishSingleFile=true -o ./publish/${{ matrix.rid }}
 
             - name: Upload artifact
               uses: actions/upload-artifact@v4
@@ -72,3 +72,9 @@ jobs:
               with:
                   name: Bloqbit-Output
                   path: ./final
+
+            - name: Cleanup merged artifacts
+              if: always()
+              run: |
+                  rm -rf ./merged
+                  rm -rf ./final

@@ -31,7 +31,7 @@ class Program
         }
     }
 
-    static async Task Main(string[] args)
+    static async Task Main(string[] _)
     {
         Log.Print("Starting Bloqbit ...");
         await new Program().RunBotAsync();
