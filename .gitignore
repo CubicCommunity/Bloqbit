@@ -1,0 +1,118 @@
+*.bat
+*.sh
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+*.log
+
+# NuGet Packages
+*.nupkg
+*.snupkg
+packages/
+*.nuspec
+*.psmdcp
+
+# Test results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# MSTest test results
+*.testsettings
+*.vsmdi
+
+# Visual Studio Code
+.vscode/
+
+# Rider
+.idea/
+*.sln.iml
+
+# DotCover
+*.dotCover
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# StyleCop
+StyleCopReport.xml
+
+# Backup & crash reports
+*.bak
+*.swp
+*.tmp
+*.pidb
+*.svclog
+
+# Entity Framework
+*.edmx.sql
+*.edmx.diagram
+*.edmx
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Publish
+publish/
+*.pubxml
+*.publishproj
+
+# Azure
+*.azurePubxml
+*.PublishSettings
+
+# npm
+node_modules/
+
+# Others
+*.dbmdl
+*.pdb
+*.mdb
+*.opendb
+*.sdf
+*.sqlite
+*.ldf
+*.mdf
+*.env
+
+# OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# Mac files
+*.DS_Store
+
+# Windows image file caches
+*.stackdump
+
+# Others
+*.vspscc
+*.vssscc
+*.cache
+*.config
+*.orig
+*.rej
+*.bak
+*.tmp
+*.swp
+*.swo
+*.sln.docstates
