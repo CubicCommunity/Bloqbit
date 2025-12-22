@@ -12,7 +12,7 @@ using Discord.Webhook;
 class Program
 {
     private DiscordSocketClient? _client;
-    private static List<Command> _commands = [];
+    private static List<Command> _commands = new List<Command>();
 
     private static readonly string? token = Environment.GetEnvironmentVariable("MAIN_TOKEN");
     private static readonly string? _webhookUrl = Environment.GetEnvironmentVariable("MAIN_LOG_WH");
@@ -71,17 +71,15 @@ class Program
     {
         var commandTypes = Assembly.GetExecutingAssembly()
             .GetTypes()
-            .Where((t) => t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(Command)));
+            .Where(t => t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(Command)));
 
         Log.Info($"Adding {commandTypes.Count()} commands to loading queue");
 
-        foreach (var type in commandTypes)
-        {
-            if (Activator.CreateInstance(type) is Command instance)
-            {
-                _commands.Add(instance);
-            }
-        }
+        _commands = commandTypes
+            .Select(t => Activator.CreateInstance(t) as Command)
+            .Where(c => c is not null)
+            .Cast<Command>()
+            .ToList();
 
         return _commands;
     }
@@ -174,13 +172,28 @@ class Program
         if (_client is not null)
         {
             var cmds = LoadAllCommands();
-            Log.Info($"Registering {cmds.Count} commands globally");
+            Log.Info($"Registering {cmds.Count} commands globally (bulk)");
 
-            foreach (var cmd in cmds)
+            var builtCommands = cmds
+                .Select(c => c.Builder?.Build())
+                .Where(b => b is not null)
+                .Cast<ApplicationCommandProperties>()
+                .ToList();
+
+            foreach (var bc in builtCommands)
+                Log.Debug($"Built command /{bc.Name}");
+
+            if (builtCommands.Count > 0)
             {
-                var builtCommand = cmd.Builder?.Build();
-                Log.Debug($"Loading command /{builtCommand?.Name}");
-                await _client!.Rest.CreateGlobalCommand(builtCommand);
+                try
+                {
+                    await _client!.Rest.BulkOverwriteGlobalCommands([.. builtCommands]);
+                    Log.Info($"Bulk registered {builtCommands.Count} commands globally");
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e.Message);
+                }
             }
         }
         else
